@@ -3,176 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>THE Pumpkin Box</title>
-  <style>
-    /* 全体設定 */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      background-color: #0a0a0a;
-      color: #ffffff;
-      font-family: "Helvetica Neue", Arial, sans-serif;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    /* ローディングコンテナ */
-    .loading-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 32px;
-      transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    /* 月のアニメーション描画部分 */
-    .moon-wrapper {
-      position: relative;
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      /* 満月のベース（ベースのうっすら光る影） */
-      background: radial-gradient(circle at 35% 35%, #ffffff 0%, #e0e0e0 60%, #888888 100%);
-      box-shadow: 0 0 25px rgba(255, 255, 255, 0.2);
-      overflow: hidden;
-    }
-
-    /* 月の影（JavaScriptで角度と位置を動かして満ち欠けを作る） */
-    .moon-shadow {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: #0a0a0a;
-      border-radius: 50%;
-      /* 進行度に合わせて右へ移動していく */
-      transform: translateX(0%);
-      transition: transform 0.1s linear;
-    }
-
-    /* カウントアップ表示 */
-    .counter {
-      font-size: 14px;
-      font-weight: 300;
-      letter-spacing: 4px;
-      color: #888888;
-    }
-
-    /* ブランドロゴ */
-    .logo {
-      font-size: 20px;
-      font-weight: 300;
-      letter-spacing: 16px;
-      text-indent: 16px; /* letter-spacingの右ズレ補正 */
-      text-transform: uppercase;
-      color: #ffffff;
-      opacity: 0.9;
-    }
-
-    /* メインコンテンツ（ローディング完了後に表示されるエリア） */
-    .main-content {
-      position: absolute;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 1.5s ease;
-      text-align: center;
-    }
-
-    .main-content.visible {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .main-title {
-      font-size: 28px;
-      font-weight: 300;
-      letter-spacing: 20px;
-      margin-bottom: 12px;
-    }
-
-    .subtitle {
-      font-size: 12px;
-      letter-spacing: 6px;
-      color: #666;
-    }
-  </style>
-</head>
-<body>
-
-  <!-- ローディング画面 -->
-  <div class="loading-container" id="loading">
-    <div class="moon-wrapper">
-      <div class="moon-shadow" id="moonShadow"></div>
-    </div>
-    
-    <div class="counter"><span id="percent">0</span>%</div>
-    
-    <div class="logo">THE PUMPKIN BOX</div>
-  </div>
-
-  <!-- 読み込み完了後の画面 -->
-  <div class="main-content" id="mainContent">
-    <h1 class="main-title">THE PUMPKIN BOX</h1>
-    <p class="subtitle">WELCOME</p>
-  </div>
-
-  <script>
-    const percentEl = document.getElementById('percent');
-    const moonShadow = document.getElementById('moonShadow');
-    const loadingEl = document.getElementById('loading');
-    const mainContentEl = document.getElementById('mainContent');
-
-    let progress = 0;
-
-    // 0%から100%へカウントアップさせるタイマー
-    const interval = setInterval(() => {
-      progress += 1;
-
-      // 数値を更新
-      percentEl.textContent = progress;
-
-      // 影の位置を移動させて月を満ちていくように見せる (0%で100%カバー、100%で完全に消える)
-      moonShadow.style.transform = `translateX(${progress}%)`;
-
-      // 100%に達したらローディング終了処理
-      if (progress >= 100) {
-        clearInterval(interval);
-        
-        setTimeout(() => {
-          // ローディングをフェードアウト
-          loadingEl.style.opacity = '0';
-          
-          setTimeout(() => {
-            loadingEl.style.display = 'none';
-            // メインコンテンツを表示
-            mainContentEl.classList.add('visible');
-          }, 1200);
-        }, 500);
-      }
-    }, 30); // 速度調整（数字を小さくすると早くなります）
-  </script>
-</body>
-</html>
-
-
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>THE Pumpkin Box | Official Site</title>
   <style>
-    /* 全体・リセットCSS */
     * {
       box-sizing: border-box;
       margin: 0;
@@ -191,8 +23,8 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* ---- ローディング画面 ---- */
-    .loading-container {
+    /* ローディング画面 */
+    #loading {
       position: fixed;
       top: 0;
       left: 0;
@@ -205,7 +37,7 @@
       justify-content: center;
       gap: 32px;
       z-index: 9999;
-      transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: opacity 1s ease;
     }
 
     .moon-wrapper {
@@ -227,7 +59,6 @@
       background-color: #0a0a0a;
       border-radius: 50%;
       transform: translateX(0%);
-      transition: transform 0.1s linear;
     }
 
     .counter {
@@ -246,19 +77,16 @@
       color: #ffffff;
     }
 
-    /* ---- メインコンテンツエリア ---- */
-    .main-content {
+    /* メインエリア */
+    #mainContent {
       opacity: 0;
-      visibility: hidden;
-      transition: opacity 1.5s ease, visibility 1.5s ease;
+      transition: opacity 1.2s ease;
     }
 
-    .main-content.visible {
+    #mainContent.visible {
       opacity: 1;
-      visibility: visible;
     }
 
-    /* ナビゲーションヘッダー */
     header {
       position: fixed;
       top: 0;
@@ -299,7 +127,6 @@
       color: #fff;
     }
 
-    /* セクション共通 */
     section {
       padding: 120px 20px;
       max-width: 1000px;
@@ -317,7 +144,6 @@
       padding-bottom: 12px;
     }
 
-    /* HERO (メインビジュアル) */
     .hero {
       height: 100vh;
       display: flex;
@@ -342,7 +168,6 @@
       color: #888;
     }
 
-    /* ABOUT */
     .about-text {
       font-size: 15px;
       line-height: 2.2;
@@ -352,7 +177,6 @@
       max-width: 700px;
     }
 
-    /* MUSIC (Streaming & YouTube) */
     .streaming-links {
       display: flex;
       gap: 16px;
@@ -378,42 +202,6 @@
       color: #000;
     }
 
-    .video-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 30px;
-    }
-
-    .video-card {
-      background: #111;
-      border: 1px solid #222;
-      padding: 16px;
-      border-radius: 4px;
-    }
-
-    .video-container {
-      position: relative;
-      width: 100%;
-      padding-top: 56.25%;
-    }
-
-    .video-container iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-
-    .video-title {
-      font-size: 14px;
-      letter-spacing: 2px;
-      margin-top: 16px;
-      font-weight: 300;
-    }
-
-    /* NEWS */
     .news-list {
       list-style: none;
     }
@@ -440,7 +228,6 @@
       font-weight: 300;
     }
 
-    /* FOOTER */
     footer {
       border-top: 1px solid #222;
       padding: 60px 20px;
@@ -473,7 +260,6 @@
       letter-spacing: 3px;
     }
 
-    /* レスポンシブ対応 */
     @media (max-width: 768px) {
       header {
         padding: 20px;
@@ -489,8 +275,8 @@
 </head>
 <body>
 
-  <!-- ローディング画面 -->
-  <div class="loading-container" id="loading">
+  <!-- ローディング -->
+  <div id="loading">
     <div class="moon-wrapper">
       <div class="moon-shadow" id="moonShadow"></div>
     </div>
@@ -498,10 +284,8 @@
     <div class="loading-logo">THE PUMPKIN BOX</div>
   </div>
 
-  <!-- メインコンテンツ -->
-  <div class="main-content" id="mainContent">
-
-    <!-- ヘッダーナビゲーション -->
+  <!-- メイン画面 -->
+  <div id="mainContent">
     <header>
       <a href="#" class="nav-logo">THE PUMPKIN BOX</a>
       <nav>
@@ -513,13 +297,11 @@
       </nav>
     </header>
 
-    <!-- HEROエリア -->
     <section class="hero">
       <h1 class="hero-title">THE PUMPKIN BOX</h1>
       <p class="hero-sub">OFFICIAL WEBSITE</p>
     </section>
 
-    <!-- ABOUTセクション -->
     <section id="about">
       <h2 class="section-title">ABOUT</h2>
       <p class="about-text">
@@ -528,29 +310,15 @@
       </p>
     </section>
 
-    <!-- MUSIC (Streaming & YouTube) セクション -->
     <section id="music">
       <h2 class="section-title">MUSIC</h2>
-      
-      <!-- 各サブスクへの直接リンク -->
       <div class="streaming-links">
-        <a href="https://music.apple.com/jp/artist/the-pumpkin-box/1713654837" target="_blank" rel="noopener noreferrer" class="stream-btn">APPLE MUSIC</a>
+        <a href="https://music.apple.com/jp/artist/the-pumpkin-box/1713654837" target="_blank" rel="noopener noreferrer" class="stream-btn[span_0](start_span)"[span_0](end_span)>APPLE MUSIC</a>
         <a href="https://open.spotify.com/artist/164r8MBfaMCKYuNO3hhymY?si=Dc902yO9SzmDpWvtjJP6UA" target="_blank" rel="noopener noreferrer" class="stream-btn">SPOTIFY</a>
         <a href="https://youtube.com/@the-pumpkin-box?si=3N22hnmmkVSUI4-P" target="_blank" rel="noopener noreferrer" class="stream-btn">YOUTUBE</a>
       </div>
-
-      <div class="video-grid">
-        <div class="video-card">
-          <div class="video-container">
-            <!-- YouTubeチャンネル・楽曲の埋め込み枠 -->
-            <iframe src="https://www.youtube.com/embed?listType=playlist&list=UU" title="YouTube video player" allowfullscreen></iframe>
-          </div>
-          <p class="video-title">OFFICIAL YOUTUBE</p>
-        </div>
-      </div>
     </section>
 
-    <!-- NEWSセクション -->
     <section id="news">
       <h2 class="section-title">NEWS</h2>
       <ul class="news-list">
@@ -561,44 +329,43 @@
       </ul>
     </section>
 
-    <!-- フッター -->
     <footer>
       <div class="sns-links">
-        <a href="https://music.apple.com/jp/artist/the-pumpkin-box/1713654837" target="_blank" rel="noopener noreferrer">APPLE MUSIC</a>
+        <a href="https://music.apple.com/jp/artist/the-pumpkin-box/1713654837" target="_blank" rel="noopener noreferrer[span_1](start_span)"[span_1](end_span)>APPLE MUSIC</a>
         <a href="https://open.spotify.com/artist/164r8MBfaMCKYuNO3hhymY?si=Dc902yO9SzmDpWvtjJP6UA" target="_blank" rel="noopener noreferrer">SPOTIFY</a>
         <a href="https://youtube.com/@the-pumpkin-box?si=3N22hnmmkVSUI4-P" target="_blank" rel="noopener noreferrer">YOUTUBE</a>
       </div>
       <p class="copyright">&copy; THE PUMPKIN BOX. ALL RIGHTS RESERVED.</p>
     </footer>
-
   </div>
 
   <script>
-    const percentEl = document.getElementById('percent');
-    const moonShadow = document.getElementById('moonShadow');
-    const loadingEl = document.getElementById('loading');
-    const mainContentEl = document.getElementById('mainContent');
+    // 画面読み込み完了後に確実にカウントアップを開始
+    window.addEventListener('DOMContentLoaded', () => {
+      const percentEl = document.getElementById('percent');
+      const moonShadow = document.getElementById('moonShadow');
+      const loadingEl = document.getElementById('loading');
+      const mainContentEl = document.getElementById('mainContent');
 
-    let progress = 0;
+      let progress = 0;
 
-    const interval = setInterval(() => {
-      progress += 1;
-      percentEl.textContent = progress;
-      moonShadow.style.transform = `translateX(${progress}%)`;
+      const timer = setInterval(() => {
+        progress += 1;
+        if (percentEl) percentEl.textContent = progress;
+        if (moonShadow) moonShadow.style.transform = `translateX(${progress}%)`;
 
-      if (progress >= 100) {
-        clearInterval(interval);
-        
-        setTimeout(() => {
-          loadingEl.style.opacity = '0';
-          
+        if (progress >= 100) {
+          clearInterval(timer);
           setTimeout(() => {
-            loadingEl.style.display = 'none';
-            mainContentEl.classList.add('visible');
-          }, 1200);
-        }, 500);
-      }
-    }, 25);
+            if (loadingEl) loadingEl.style.opacity = '0';
+            setTimeout(() => {
+              if (loadingEl) loadingEl.style.display = 'none';
+              if (mainContentEl) mainContentEl.classList.add('visible');
+            }, 1000);
+          }, 300);
+        }
+      }, 20);
+    });
   </script>
 </body>
 </html>
