@@ -1,130 +1,465 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE Pumpkin Box - Discography</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        body {
-            background-color: #0b0b0b;
-            color: #ffffff;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            padding: 40px 20px;
-        }
-        header {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-        header h1 {
-            font-size: 2.2rem;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-        }
-        
-        /* Discography Grid */
-        .discography-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 32px;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-        .card {
-            background-color: #141414;
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid #222;
-            transition: transform 0.2s ease, border-color 0.2s ease;
-            text-decoration: none;
-            color: inherit;
-            display: block;
-        }
-        .card:hover {
-            transform: translateY(-6px);
-            border-color: #555;
-        }
-        .jacket {
-            width: 100%;
-            aspect-ratio: 1 / 1;
-            background-color: #222;
-        }
-        .jacket img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-        .info {
-            padding: 16px;
-            text-align: center;
-        }
-        .title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-        .artist {
-            font-size: 0.85rem;
-            color: #888;
-            margin-bottom: 12px;
-        }
-        .tunecore-btn {
-            display: inline-block;
-            width: 100%;
-            padding: 10px 0;
-            background: linear-gradient(135deg, #2b2b2b, #1a1a1a);
-            border: 1px solid #444;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #fff;
-            letter-spacing: 0.05em;
-        }
-        .card:hover .tunecore-btn {
-            background: #ffffff;
-            color: #000000;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>THE Pumpkin Box | Official Site</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: #0a0a0a;
+      color: #ffffff;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      position: relative;
+    }
+
+    /* 背景の薄いネオン風ロゴ演出 */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 70vw;
+      max-width: 600px;
+      height: 70vw;
+      max-height: 600px;
+      /* ロゴ画像ファイルのパスを指定 */
+      background: url('logo.png') no-repeat center center;
+      background-size: contain;
+      /* ネオン感のある発光と薄い表示（透明度0.12） */
+      opacity: 0.12;
+      filter: drop-shadow(0 0 25px #8a2be2) drop-shadow(0 0 50px #4b0082);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ローディング画面 */
+    #loading {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: #0a0a0a;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      z-index: 9999;
+      transition: opacity 1s ease;
+    }
+
+    .moon-wrapper {
+      position: relative;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #ffffff 0%, #e0e0e0 60%, #888888 100%);
+      box-shadow: 0 0 25px rgba(255, 255, 255, 0.2);
+      overflow: hidden;
+    }
+
+    .moon-shadow {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #0a0a0a;
+      border-radius: 50%;
+      transform: translateX(0%);
+    }
+
+    .counter {
+      font-size: 14px;
+      font-weight: 300;
+      letter-spacing: 4px;
+      color: #888888;
+    }
+
+    .loading-logo {
+      font-size: 20px;
+      font-weight: 300;
+      letter-spacing: 16px;
+      text-indent: 16px;
+      text-transform: uppercase;
+      color: #ffffff;
+    }
+
+    /* メインエリア */
+    #mainContent {
+      opacity: 0;
+      transition: opacity 1.2s ease;
+      position: relative;
+      z-index: 1;
+    }
+
+    #mainContent.visible {
+      opacity: 1;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 24px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(10, 10, 10, 0.8);
+      backdrop-filter: blur(10px);
+      z-index: 100;
+    }
+
+    .nav-logo {
+      font-size: 16px;
+      font-weight: 400;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      color: #fff;
+      text-decoration: none;
+    }
+
+    nav ul {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    nav a {
+      color: #888;
+      text-decoration: none;
+      font-size: 12px;
+      letter-spacing: 3px;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #fff;
+    }
+
+    section {
+      padding: 120px 20px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-size: 14px;
+      font-weight: 300;
+      letter-spacing: 8px;
+      color: #666;
+      text-transform: uppercase;
+      margin-bottom: 40px;
+      border-bottom: 1px solid #222;
+      padding-bottom: 12px;
+    }
+
+    .hero {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 0;
+    }
+
+    .hero-title {
+      font-size: clamp(32px, 6vw, 64px);
+      font-weight: 300;
+      letter-spacing: 20px;
+      text-indent: 20px;
+      margin-bottom: 16px;
+    }
+
+    .hero-sub {
+      font-size: 13px;
+      letter-spacing: 6px;
+      color: #888;
+    }
+
+    .about-text {
+      font-size: 15px;
+      line-height: 2.2;
+      letter-spacing: 2px;
+      color: #ccc;
+      font-weight: 300;
+      max-width: 700px;
+    }
+
+    /* Discography Grid (MUSIC Section) */
+    .discography-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 32px;
+      width: 100%;
+    }
+
+    .card {
+      background-color: rgba(20, 20, 20, 0.8);
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #222;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      backdrop-filter: blur(5px);
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: #555;
+    }
+
+    .jacket {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      background-color: #1a1a1a;
+    }
+
+    .jacket img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .info {
+      padding: 16px;
+      text-align: center;
+    }
+
+    .title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .artist {
+      font-size: 0.85rem;
+      color: #888;
+      margin-bottom: 12px;
+    }
+
+    .tunecore-btn {
+      display: inline-block;
+      width: 100%;
+      padding: 10px 0;
+      background: linear-gradient(135deg, #2b2b2b, #1a1a1a);
+      border: 1px solid #444;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: 0.05em;
+      transition: all 0.2s ease;
+    }
+
+    .card:hover .tunecore-btn {
+      background: #ffffff;
+      color: #000000;
+    }
+
+    .news-list {
+      list-style: none;
+    }
+
+    .news-item {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 20px 0;
+      border-bottom: 1px solid #222;
+      gap: 20px;
+    }
+
+    .news-date {
+      font-size: 12px;
+      color: #666;
+      letter-spacing: 2px;
+      min-width: 100px;
+    }
+
+    .news-title {
+      font-size: 14px;
+      letter-spacing: 1px;
+      color: #ddd;
+      font-weight: 300;
+    }
+
+    footer {
+      border-top: 1px solid #222;
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .sns-links {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .sns-links a {
+      color: #888;
+      text-decoration: none;
+      font-size: 12px;
+      letter-spacing: 2px;
+      transition: color 0.3s;
+    }
+
+    .sns-links a:hover {
+      color: #fff;
+    }
+
+    .copyright {
+      font-size: 10px;
+      color: #444;
+      letter-spacing: 3px;
+    }
+
+    @media (max-width: 768px) {
+      header {
+        padding: 20px;
+      }
+      nav ul {
+        gap: 16px;
+      }
+      nav a {
+        font-size: 10px;
+      }
+    }
+  </style>
 </head>
 <body>
 
+  <!-- ローディング -->
+  <div id="loading">
+    <div class="moon-wrapper">
+      <div class="moon-shadow" id="moonShadow"></div>
+    </div>
+    <div class="counter"><span id="percent">0</span>%</div>
+    <div class="loading-logo">THE PUMPKIN BOX</div>
+  </div>
+
+  <!-- メイン画面 -->
+  <div id="mainContent">
     <header>
-        <h1>THE Pumpkin Box</h1>
+      <a href="#" class="nav-logo">THE PUMPKIN BOX</a>
+      <nav>
+        <ul>
+          <li><a href="#about">ABOUT</a></li>
+          <li><a href="#music">MUSIC</a></li>
+          <li><a href="#news">NEWS</a></li>
+        </ul>
+      </nav>
     </header>
 
-    <main class="discography-grid">
+    <section class="hero">
+      <h1 class="hero-title">THE PUMPKIN BOX</h1>
+      <p class="hero-sub">OFFICIAL WEBSITE</p>
+    </section>
+
+    <section id="about">
+      <h2 class="section-title">ABOUT</h2>
+      <p class="about-text">
+        光と影、感情の二面性を音楽と映像で表現するクリエイティブ・プロジェクト。<br>
+        静寂の中に佇む月のように、聴く人の心へ寄り添うサウンドを追及している。
+      </p>
+    </section>
+
+    <section id="music">
+      <h2 class="section-title">DISCOGRAPHY</h2>
+      <div class="discography-grid">
 
         <!-- Yakou -->
-        <!-- href に各自の TuneCore / LinkCore URL を入れます -->
-        <a href="https://linkcore.co/xxxxxx" target="_blank" class="card">
-            <div class="jacket">
-                <!-- GitHubに上げた画像ファイル名を入力 -->
-                <img src="yakou.jpg" alt="Yakou (夜行)">
-            </div>
-            <div class="info">
-                <div class="title">Yakou (夜行)</div>
-                <div class="artist">THE Pumpkin Box</div>
-                <div class="tunecore-btn">Stream / Download</div>
-            </div>
+        <a href="https://linkcore.co/xxxxxx" target="_blank" rel="noopener noreferrer" class="card">
+          <div class="jacket">
+            <img src="yakou.jpg" alt="Yakou (夜行)">
+          </div>
+          <div class="info">
+            <div class="title">Yakou (夜行)</div>
+            <div class="artist">THE Pumpkin Box</div>
+            <div class="tunecore-btn">Stream / Download</div>
+          </div>
         </a>
 
         <!-- Pacific Ocean -->
-        <a href="https://linkcore.co/xxxxxx" target="_blank" class="card">
-            <div class="jacket">
-                <img src="pacific_ocean.jpg" alt="Pacific Ocean">
-            </div>
-            <div class="info">
-                <div class="title">Pacific Ocean</div>
-                <div class="artist">THE Pumpkin Box</div>
-                <div class="tunecore-btn">Stream / Download</div>
-            </div>
+        <a href="https://linkcore.co/xxxxxx" target="_blank" rel="noopener noreferrer" class="card">
+          <div class="jacket">
+            <img src="pacific.jpg" alt="Pacific Ocean">
+          </div>
+          <div class="info">
+            <div class="title">Pacific Ocean</div>
+            <div class="artist">THE Pumpkin Box</div>
+            <div class="tunecore-btn">Stream / Download</div>
+          </div>
         </a>
 
-    </main>
+      </div>
+    </section>
 
+    <section id="news">
+      <h2 class="section-title">NEWS</h2>
+      <ul class="news-list">
+        <li class="news-item">
+          <span class="news-date">2026.08.05</span>
+          <span class="news-title">Official Web Site Open</span>
+        </li>
+      </ul>
+    </section>
+
+    <footer>
+      <div class="sns-links">
+        <a href="https://music.apple.com/jp/artist/the-pumpkin-box/1713654837" target="_blank" rel="noopener noreferrer" cite="https://music.apple.com/jp/artist/the-pumpkin-box/1713654837">APPLE MUSIC</a>
+        <a href="https://open.spotify.com/artist/164r8MBfaMCKYuNO3hhymY?si=Dc902yO9SzmDpWvtjJP6UA" target="_blank" rel="noopener noreferrer">SPOTIFY</a>
+        <a href="https://youtube.com/@the-pumpkin-box?si=3N22hnmmkVSUI4-P" target="_blank" rel="noopener noreferrer">YOUTUBE</a>
+      </div>
+      <p class="copyright">&copy; THE PUMPKIN BOX. ALL RIGHTS RESERVED.</p>
+    </footer>
+  </div>
+
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const percentEl = document.getElementById('percent');
+      const moonShadow = document.getElementById('moonShadow');
+      const loadingEl = document.getElementById('loading');
+      const mainContentEl = document.getElementById('mainContent');
+
+      let progress = 0;
+
+      const timer = setInterval(() => {
+        progress += 1;
+        if (percentEl) percentEl.textContent = progress;
+        if (moonShadow) moonShadow.style.transform = `translateX(${progress}%)`;
+
+        if (progress >= 100) {
+          clearInterval(timer);
+          setTimeout(() => {
+            if (loadingEl) loadingEl.style.opacity = '0';
+            setTimeout(() => {
+              if (loadingEl) loadingEl.style.display = 'none';
+              if (mainContentEl) mainContentEl.classList.add('visible');
+            }, 1000);
+          }, 300);
+        }
+      }, 20);
+    });
+  </script>
 </body>
+</html>
