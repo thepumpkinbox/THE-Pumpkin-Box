@@ -35,10 +35,9 @@
       max-width: 600px;
       height: 70vw;
       max-height: 600px;
-      /* ロゴ画像ファイルのパスを指定 */
+      /* アップロードしたロゴのファイル名に書き換えてください */
       background: url('logo.png') no-repeat center center;
       background-size: contain;
-      /* ネオン感のある発光と薄い表示（透明度0.12） */
       opacity: 0.12;
       filter: drop-shadow(0 0 25px #8a2be2) drop-shadow(0 0 50px #4b0082);
       pointer-events: none;
@@ -153,7 +152,7 @@
 
     section {
       padding: 120px 20px;
-      max-width: 1000px;
+      max-width: 1200px;
       margin: 0 auto;
     }
 
@@ -201,24 +200,28 @@
       max-width: 700px;
     }
 
-    /* Discography Grid (MUSIC Section) */
+    /* Discography Grid */
     .discography-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 32px;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 40px;
       width: 100%;
+      justify-items: center;
     }
 
     .card {
-      background-color: rgba(20, 20, 20, 0.8);
+      background-color: rgba(20, 20, 20, 0.85);
       border-radius: 12px;
       overflow: hidden;
       border: 1px solid #222;
       transition: transform 0.2s ease, border-color 0.2s ease;
-      text-decoration: none;
-      color: inherit;
-      display: block;
+      width: 100%;
+      max-width: 320px;
       backdrop-filter: blur(5px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px 12px;
     }
 
     .card:hover {
@@ -226,22 +229,10 @@
       border-color: #555;
     }
 
-    .jacket {
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      background-color: #1a1a1a;
-    }
-
-    .jacket img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
     .info {
-      padding: 16px;
+      padding: 12px 0;
       text-align: center;
+      width: 100%;
     }
 
     .title {
@@ -257,7 +248,7 @@
     }
 
     .tunecore-btn {
-      display: inline-block;
+      display: block;
       width: 100%;
       padding: 10px 0;
       background: linear-gradient(135deg, #2b2b2b, #1a1a1a);
@@ -266,13 +257,27 @@
       font-size: 0.85rem;
       font-weight: 600;
       color: #fff;
+      text-decoration: none;
+      text-align: center;
       letter-spacing: 0.05em;
       transition: all 0.2s ease;
     }
 
-    .card:hover .tunecore-btn {
+    .tunecore-btn:hover {
       background: #ffffff;
       color: #000000;
+    }
+
+    .player-wrapper {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin-top: 10px;
+    }
+
+    .player-wrapper iframe {
+      border-radius: 8px;
+      max-width: 100%;
     }
 
     .news-list {
@@ -364,7 +369,7 @@
       <nav>
         <ul>
           <li><a href="#about">ABOUT</a></li>
-          <li><a href="#music">MUSIC</a></li>
+          <li><a href="#music">DISCOGRAPHY</a></li>
           <li><a href="#news">NEWS</a></li>
         </ul>
       </nav>
@@ -387,29 +392,88 @@
       <h2 class="section-title">DISCOGRAPHY</h2>
       <div class="discography-grid">
 
-        <!-- Yakou -->
-        <a href="https://linkcore.co/xxxxxx" target="_blank" rel="noopener noreferrer" class="card">
-          <div class="jacket">
-            <img src="yakou.jpg" alt="Yakou (夜行)">
-          </div>
+        <!-- 1. Revenant -->
+        <article class="card">
           <div class="info">
-            <div class="title">Yakou (夜行)</div>
+            <div class="title">Revenant</div>
             <div class="artist">THE Pumpkin Box</div>
-            <div class="tunecore-btn">Stream / Download</div>
           </div>
-        </a>
+          <div class="player-wrapper">
+            <iframe src="https://linkco.re/embed/ztUS1qY1" width="100%" height="450" frameborder="0"></iframe>
+          </div>
+        </article>
 
-        <!-- Pacific Ocean -->
-        <a href="https://linkcore.co/xxxxxx" target="_blank" rel="noopener noreferrer" class="card">
-          <div class="jacket">
-            <img src="pacific.jpg" alt="Pacific Ocean">
-          </div>
+        <!-- 2. タートルネックのせいにして -->
+        <article class="card">
           <div class="info">
-            <div class="title">Pacific Ocean</div>
+            <div class="title">タートルネックのせいにして</div>
             <div class="artist">THE Pumpkin Box</div>
-            <div class="tunecore-btn">Stream / Download</div>
+            <a href="https://linkco.re/tMbAnq8x" target="_blank" rel="noopener noreferrer" class="tunecore-btn">LinkCore で聴く</a>
           </div>
-        </a>
+          <div class="player-wrapper">
+            <iframe src="https://linkco.re/embed/tMbAnq8x" width="100%" height="450" frameborder="0"></iframe>
+          </div>
+        </article>
+
+        <!-- 3. High 2 -->
+        <article class="card">
+          <div class="info">
+            <div class="title">High 2</div>
+            <div class="artist">THE Pumpkin Box</div>
+            <a href="https://linkco.re/gCH4bzed" target="_blank" rel="noopener noreferrer" class="tunecore-btn">LinkCore で聴く</a>
+          </div>
+          <div class="player-wrapper">
+            <iframe src="https://linkco.re/embed/gCH4bzed" width="100%" height="450" frameborder="0"></iframe>
+          </div>
+        </article>
+
+        <!-- 4. Dying In Yellow -->
+        <article class="card">
+          <div class="info">
+            <div class="title">Dying In Yellow</div>
+            <div class="artist">THE Pumpkin Box</div>
+            <a href="https://linkco.re/qrPvSyQt" target="_blank" rel="noopener noreferrer" class="tunecore-btn">LinkCore で聴く</a>
+          </div>
+          <div class="player-wrapper">
+            <iframe src="https://linkco.re/embed/qrPvSyQt" width="100%" height="450" frameborder="0"></iframe>
+          </div>
+        </article>
+
+        <!-- 5. 夜行 -->
+        <article class="card">
+          <div class="info">
+            <div class="title">夜行</div>
+            <div class="artist">THE Pumpkin Box</div>
+            <a href="https://linkco.re/bavx7pXV" target="_blank" rel="noopener noreferrer" class="tunecore-btn">LinkCore で聴く</a>
+          </div>
+          <div class="player-wrapper">
+            <iframe src="https://linkco.re/embed/bavx7pXV" width="100%" height="450" frameborder="0"></iframe>
+          </div>
+        </article>
+
+        <!-- 6. Goodbye to you someday i loved -->
+        <article class="card">
+          <div class="info">
+            <div class="title">Goodbye to you someday i loved</div>
+            <div class="artist">THE Pumpkin Box</div>
+            <a href="https://linkco.re/BUeqRnbh" target="_blank" rel="noopener noreferrer" class="tunecore-btn">LinkCore で聴く</a>
+          </div>
+          <div class="player-wrapper">
+            <iframe src="https://linkco.re/embed/BUeqRnbh" width="100%" height="450" frameborder="0"></iframe>
+          </div>
+        </article>
+
+        <!-- 7. パシフィックオーシャン -->
+        <article class="card">
+          <div class="info">
+            <div class="title">パシフィックオーシャン</div>
+            <div class="artist">THE Pumpkin Box</div>
+            <a href="https://linkco.re/buefvgqr" target="_blank" rel="noopener noreferrer" class="tunecore-btn">LinkCore で聴く</a>
+          </div>
+          <div class="player-wrapper">
+            <iframe src="https://linkco.re/embed/buefvgqr" width="100%" height="450" frameborder="0"></iframe>
+          </div>
+        </article>
 
       </div>
     </section>
@@ -426,7 +490,7 @@
 
     <footer>
       <div class="sns-links">
-        <a href="https://music.apple.com/jp/artist/the-pumpkin-box/1713654837" target="_blank" rel="noopener noreferrer" cite="https://music.apple.com/jp/artist/the-pumpkin-box/1713654837">APPLE MUSIC</a>
+        <a href="https://music.apple.com/jp/artist/the-pumpkin-box/1713654837" target="_blank" rel="noopener noreferrer">APPLE MUSIC</a>
         <a href="https://open.spotify.com/artist/164r8MBfaMCKYuNO3hhymY?si=Dc902yO9SzmDpWvtjJP6UA" target="_blank" rel="noopener noreferrer">SPOTIFY</a>
         <a href="https://youtube.com/@the-pumpkin-box?si=3N22hnmmkVSUI4-P" target="_blank" rel="noopener noreferrer">YOUTUBE</a>
       </div>
